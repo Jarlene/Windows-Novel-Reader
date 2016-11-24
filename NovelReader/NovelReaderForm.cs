@@ -31,7 +31,6 @@ namespace NovelReader
 
         public NovelReaderForm()
         {
-            
             InitializeComponent();
             SetControl();
             BackgroundService.Instance.novelReaderForm = this;
@@ -97,7 +96,6 @@ namespace NovelReader
                 {
                 }
             }
-
         }
 
         public bool InvokeRequiredForNovel(Novel n)
@@ -115,16 +113,13 @@ namespace NovelReader
                 return true;
             return false;
         }
-            
 
         /*============EventHandler==========*/
-
 
         private void NovelReaderForm_Load(object sender, EventArgs e)
         {
 
         }
-
 
         private void NovelChapters_ListChanged(object sender, ListChangedEventArgs e)
         {
@@ -139,7 +134,6 @@ namespace NovelReader
 
         private void OnFileChange(object source, FileSystemEventArgs e)
         {
-            
             string fileName = Path.GetFileNameWithoutExtension(e.Name);
             var result = currentReadingNovel.Chapters.Where(c => c.HashID == fileName);
             if (result.Any())
@@ -160,9 +154,7 @@ namespace NovelReader
                     else
                         ReadChapter(currentReadingChapter);
                 }
-                
             }
-
         }
 
         private void dgvChapterList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -213,7 +205,6 @@ namespace NovelReader
                 currentReadingNovel.MarkOffChapter(currentReadingChapter);
                 
                 Chapter nextChapter = currentReadingNovel.GetChapter(GetDisplayedIndex(currentReadingChapter) + 1);
-                //Console.WriteLine(currentReadingChapter.Index + " " + nextChapter.Index);
                 ReadChapter(nextChapter);
             }
         }
@@ -238,13 +229,8 @@ namespace NovelReader
                 mp3Player.close();
                 mp3Player = null;
                 BackgroundService.Instance.novelReaderForm = null;
-                //BackgroundService.Instance.CloseService();
             }
-            catch(Exception exception)
-            {
-
-            }
-            
+            catch(Exception){}
         }
 
         private void dgvChapterList_CurrentCellDirtyStateChanged(object sender, EventArgs e)
@@ -255,7 +241,6 @@ namespace NovelReader
 
         private void dgvChapterList_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            //if(dgvChapterList.Columns[e.ColumnIndex].Name.Equals("SelectColumn"))
             ModifyCellStyle(e.RowIndex);
         }
 
@@ -315,7 +300,6 @@ namespace NovelReader
                         dgvChapterList.ClearSelection();
                         dgvChapterList.Rows[hit.RowIndex].Selected = true;
                     }
-                        
                 }
             }
         }
@@ -326,11 +310,9 @@ namespace NovelReader
             RedownloadChapters(downloadFromSource);
         }
 
-
         private void chapterContextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             string clickedItemName = e.ClickedItem.Text;
-            Console.WriteLine(clickedItemName);
             if (clickedItemName == "Set Read")
                 SetReadChapters();
             else if (clickedItemName == "Set Not Read")
@@ -339,11 +321,7 @@ namespace NovelReader
                 RemakeAudio();
             else if (clickedItemName == "Delete Chapters")
                 DeleteChapters();
-            //else if (clickedItemName == "Export")
-            //    ExportChapter();
-
         }
-
 
         /*============PrivateFunction=======*/
 
@@ -390,10 +368,6 @@ namespace NovelReader
             };
 
             dgvChapterList.Columns.Add(titleColumn);
-            //dgvChapterList.Columns.Add(indexColumn);
-            //dgvChapterList.Columns.Add(validColumn);
-
-
         }
 
         private void ReadChapter(Chapter chapter)
@@ -439,7 +413,6 @@ namespace NovelReader
                     row.Selected = false;
                 }
             }
-            
         }
 
         private void PlayAudio(Chapter chapter)
@@ -498,7 +471,6 @@ namespace NovelReader
             {
                 currentReadingNovel.DeleteAllChapter(chapters, true);
             }).Start();
-            
         }
 
         private void RedownloadChapters(Source source)
@@ -522,7 +494,6 @@ namespace NovelReader
                         }));
                     }
                 }
-                    
             }).Start();
         }
 
@@ -533,7 +504,6 @@ namespace NovelReader
             rtbChapterTextBox.BackColor = Color.White;
             btnEdit.Text = "Finish Edit";
             editModeOn = true;
-
         }
 
         private void FinishEditing()
@@ -577,14 +547,11 @@ namespace NovelReader
                 return;
             
             DataGridViewRow row = dgvChapterList.Rows[rowIndex];
-            //Console.WriteLine("Feedback");
             Chapter chapter = currentReadingNovel.NovelChapters[rowIndex];
             bool valid = chapter.Valid;
             bool read = chapter.Read;
             bool hasText = chapter.HasText;
             bool hasAudio = chapter.HasAudio;
-
-            //Console.WriteLine(chapter.ChapterTitle + " " + valid + " " + read + " " + hasText + " " + hasAudio);
 
             if (currentReadingChapter != null && chapter.ID == currentReadingChapter.ID)
                 row.DefaultCellStyle.Font = readingFont;
@@ -611,7 +578,6 @@ namespace NovelReader
                 row.DefaultCellStyle.BackColor = Color.LightBlue;
                 row.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
             }
-            
         }
         private void ExportItem_Click(object sender, EventArgs e)
         {
@@ -651,9 +617,7 @@ namespace NovelReader
                         chapter.ExportText(destinationFolder);
                     }
                 }
-
             }).Start();
-            
         }
     }
 }

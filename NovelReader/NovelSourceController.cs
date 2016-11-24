@@ -27,6 +27,7 @@ namespace NovelReader
         public void SetNovel(Novel novel)
         {
             this.novel = novel;
+            novelTitleLabel.Text = novel.NovelTitle;
             RefreshBlackList();
             RefreshSourceList();
             this.Visible = true;
